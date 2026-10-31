@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Home</title>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'product_add' %}">
+    <button class="add_button">Add Product</button>
+
+</a>
+
+<table>
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Stock</td>
+            <td>Price</td>
+            <td>Image</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in product %}
+        <tr>
+
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.stock }}</td>
+            <td>{{ product.price }}</td>
+
+            <td>
+
+                <a href="{% url 'product_detail' product.id %}"><img src="{{ product.image.url }}"
+                        alt="{{ product.name }}" width="100px" height="100px"></a>
+
+
+            </td>
+            <td>
+                <a href="{% url 'product_detail' product.id %}"><i class="fa fa-eye"></i></a>
+                <a href="{% url 'product_edit' product.id %}"><i class="fa fa-edit"></i></a>
+                <form action="{% url 'product_delete' product.id %}" method="POST">
+                     {% csrf_token %}
+                     <button type="submit">
+
+                      <i class="fa fa-close"></i>
+                     </button>
+                </form>
+                  
+
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

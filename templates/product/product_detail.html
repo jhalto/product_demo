@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>Product Detail</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="product-container">
+
+    <div class="product-image">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="no-image">No Image Available</div>
+        {% endif %}
+    </div>
+
+    <div class="product-info">
+
+        <span class="product-category">
+            {{ product.category }}
+        </span>
+
+        <h1>{{ product.name }}</h1>
+
+        <div class="product-price">
+            ৳{{ product.price }}
+        </div>
+
+        <p class="product-description">
+            {{ product.description }}
+        </p>
+
+        <div class="product-stock">
+            {% if product.stock > 0 %}
+                <span class="available">● In Stock</span>
+                <p>{{ product.stock }} items available</p>
+            {% else %}
+                <span class="unavailable">● Out of Stock</span>
+            {% endif %}
+        </div>
+
+        {% if product.stock > 0 %}
+            <button class="cart-btn">
+                Add to Cart
+            </button>
+        {% else %}
+            <button class="cart-btn disabled" disabled>
+                Out of Stock
+            </button>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
