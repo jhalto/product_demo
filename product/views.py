@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 
 from product.models import Product
@@ -11,7 +11,8 @@ def product_detail(request, id):
     return render(request, 'product_detail.html',  context= {
         'product': product
     })
-    
+
+@login_required    
 def product_edit(request, id):
     
     product = get_object_or_404(Product, id = id)
@@ -30,7 +31,8 @@ def product_edit(request, id):
         'form': form
     } 
     return render(request, 'product_edit.html', context)
-
+@login_required
+@permission_required(perm=['product.add_product'], raise_exception= True)
 def product_add(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -44,7 +46,7 @@ def product_add(request):
         'form': form
     }
     return render(request,'product_add.html', context)
-
+@permission_required(perm=['product.delete_product'], raise_exception= True)
 def product_delete(request, id):
     product = get_object_or_404(Product, id = id)
     
